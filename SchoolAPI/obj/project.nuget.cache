@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "z4Q7mw3gXLEUcbtbpQJDYYp63RD+Uq3dJdYQSn6XI1gqUcK+kLQ3qc4IMQWZprNnRZLxbpvlzMxjP2KX9SY0GQ==",
+  "dgSpecHash": "vI1yFtsBPt7kVPEmshG2TCiiC3RB7ixohgut+cGgbVYh14IutNMQ6HB2HTyOgIClwnSRpvht9o1WzfYDk0+N6g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Nesto\\OneDrive\\Escritorio\\APIS\\SchoolAPI\\SchoolAPI.csproj",
+  "projectFilePath": "C:\\Users\\Nesto\\OneDrive\\Escritorio\\School API\\SchoolAPI\\SchoolAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Nesto\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\Nesto\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

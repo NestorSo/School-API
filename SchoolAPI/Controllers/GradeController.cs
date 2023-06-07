@@ -1,98 +1,93 @@
 ﻿using AutoMapper;
-using Azure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using School.Dto;
-using SchoolAPI.Data;
 using SchoolAPI.Models;
 using SchoolAPI.Models.Dto;
 using SchoolAPI.Repository.IRepository;
-using GradeDto = SchoolAPI.Models.Grade;
 
 namespace SchoolAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class GradeController : ControllerBase
     {
         //private readonly SchoolContext _db;
-        private readonly IStudentRepository _studentRepos;
-        private readonly ILogger<StudentController> _logger;
+        private readonly IGradeRepository _gradeRepos;
+        private readonly ILogger<GradeController> _logger;
         private readonly IMapper _mapper;
 
-        public StudentController(ILogger<StudentController> logger, /*SchoolContext db*/ IStudentRepository studentrepos, IMapper mapper)
+        public GradeController(ILogger<GradeController> logger, /*SchoolContext db*/ IGradeRepository gradeRepos, IMapper mapper)
         {
             _logger = logger;
             //_db = db;
             _mapper = mapper;
-            _studentRepos = studentrepos;
+            _gradeRepos = gradeRepos;
         }
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
+        public async Task<ActionResult<IEnumerable<GradeDto>>> GetGrades()
         {
-            _logger.LogInformation("Obtener los Estudiantes");
+            _logger.LogInformation("Obtener los Grados");
 
-            var studentList = await _studentRepos.GetAll();
+            var gradeList = await _gradeRepos.GetAll();
 
-            return Ok(_mapper.Map<IEnumerable<StudentDto>>(studentList));
+            return Ok(_mapper.Map<IEnumerable<GradeDto>>(gradeList));
         }
 
-        [HttpGet("{id:int}", Name = "GetStudent")]
+        [HttpGet("{id:int}", Name = "GetGrade")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<StudentDto>> GetStudent(int id)
+        public async Task<ActionResult<GradeDto>> GetGrade(int id)
         {
             if (id == 0)
             {
-                _logger.LogError($"Error al traer Estudiante con Id {id}");
+                _logger.LogError($"Error al traer el grado con Id {id}");
                 return BadRequest();
             }
-            var student = await _studentRepos.Get(s => s.StudentId == id);
+            var grade = await _gradeRepos.Get(s => s.Id == id);
 
-            if (student == null)
+            if (grade == null)
             {
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<StudentDto>(student));
+            return Ok(_mapper.Map<StudentDto>(grade));
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<StudentDto>> AddStudent([FromBody] StudentCreateDto studentCreateDto)
+        public async Task<ActionResult<GradeDto>> AddGrade([FromBody] GradeCreateDto gradeCreate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (await _studentRepos.Get(s => s.StudentName.ToLower() == studentCreateDto.StudentName.ToLower()) != null)
+            if (await _gradeRepos.Get(s => s.GradeName.ToLower() == gradeCreate.GradeName.ToLower()) != null)
             {
-                ModelState.AddModelError("NombreExiste", "¡El Estudiante con ese Nombre ya existe!");
+                ModelState.AddModelError("NombreExiste", "¡El grado con ese Nombre ya existe!");
                 return BadRequest(ModelState);
             }
 
-            if (studentCreateDto == null)
+            if (gradeCreate == null)
             {
-                return BadRequest(studentCreateDto);
+                return BadRequest(gradeCreate);
             }
 
-            Student modelo = _mapper.Map<Student>(studentCreateDto);
+            Grade modelo = _mapper.Map<Grade>(gradeCreate);
 
-            //Student modelo = new()
+            //Grade modelo = new()
             //{
             //    StudentName = studentCreateDto.StudentName
             //};
 
-            await _studentRepos.Add(modelo);
+            await _gradeRepos.Add(modelo);
 
-            return CreatedAtRoute("GetStudent", new { id = modelo.StudentId }, modelo);
+            return CreatedAtRoute("GetGrade", new { id = modelo.Id }, modelo);
 
         }
 
@@ -100,20 +95,20 @@ namespace SchoolAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteStudent(int id)
+        public async Task<IActionResult> DeleteGrade(int id)
         {
             if (id == 0)
             {
                 return BadRequest();
             }
-            var student = await _studentRepos.Get(s => s.StudentId == id);
+            var Grade = await _gradeRepos.Get(s => s.Id == id);
 
-            if (student == null)
+            if (Grade == null)
             {
                 return NotFound();
             }
 
-            await _studentRepos.Remove(student);
+            await _gradeRepos.Remove(Grade);
 
             return NoContent();
         }
@@ -121,14 +116,14 @@ namespace SchoolAPI.Controllers
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdateStudent(int id, [FromBody] StudentUpdateDto studentUpdateDto)
+        public async Task<IActionResult> UpdateGrade(int id, [FromBody] GradeUpdateDto gradeUpdate)
         {
-            if (studentUpdateDto == null || id != studentUpdateDto.StudentId)
+            if (gradeUpdate == null || id != gradeUpdate.Id)
             {
                 return BadRequest();
             }
 
-            Student modelo = _mapper.Map<Student>(studentUpdateDto);
+            Grade modelo = _mapper.Map<Grade>(gradeUpdate);
 
             //Student modelo = new()
             //{
@@ -136,7 +131,7 @@ namespace SchoolAPI.Controllers
             //    StudentName = studentUpdateDto.StudentName
             //};
 
-            await _studentRepos.Update(modelo);
+            await _gradeRepos.Update(modelo);
 
             return NoContent();
         }
@@ -144,39 +139,41 @@ namespace SchoolAPI.Controllers
         [HttpPatch("{id:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> UpdatePartialStudent(int id, JsonPatchDocument<StudentUpdateDto> patchDto)
+        public async Task<IActionResult> UpdatePartialGrade(int id, JsonPatchDocument<GradeUpdateDto> patchDto)
         {
             if (patchDto == null || id == 0)
             {
                 return BadRequest();
             }
 
-            var student = await _studentRepos.Get(s => s.StudentId == id, tracked: false);
+            var grade = await _gradeRepos.Get(s => s.Id == id, tracked: false);
 
-            StudentUpdateDto studentUpdateDto = _mapper.Map<StudentUpdateDto>(student);
+            GradeUpdateDto gradeUpdate = _mapper.Map<GradeUpdateDto>(grade);
             //StudentUpdateDto studentUpdateDto = new()
             //{
             //    StudentId = student.StudentId,
             //    StudentName = student.StudentName
             //};
-            if (student == null) return BadRequest();
+            if (grade == null) return BadRequest();
 
-            patchDto.ApplyTo(studentUpdateDto, ModelState);
+            patchDto.ApplyTo(gradeUpdate, ModelState);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            Student modelo = _mapper.Map<Student>(studentUpdateDto);
+            Grade modelo = _mapper.Map<Grade>(gradeUpdate);
             //Student modelo = new()
             //{
             //    StudentId = studentUpdateDto.StudentId,
             //    StudentName = studentUpdateDto.StudentName
             //};
-            await _studentRepos.Update(modelo);
+            await _gradeRepos.Update(modelo);
 
             return NoContent();
         }
+
+
 
 
     }
