@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "OVt9f29RK16R9jZ2dus+cgOtJHJVlregSnscjRexa4MaANYHxJH2qj9WBKknwrNhcLqhkRY1b2mJ8b3wuql8xQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Nesto\\OneDrive\\Escritorio\\APIS\\School\\School.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Nesto\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
