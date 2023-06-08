@@ -54,7 +54,7 @@ namespace SchoolAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<StudentDto>(grade));
+            return Ok(_mapper.Map<Grade>(grade));
         }
 
         [HttpPost]
@@ -67,11 +67,12 @@ namespace SchoolAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (await _gradeRepos.Get(s => s.GradeName.ToLower() == gradeCreate.GradeName.ToLower()) != null)
+            if (await _gradeRepos.Get(s => s.Id == gradeCreate.Id) != null)
             {
-                ModelState.AddModelError("NombreExiste", "¡El grado con ese Nombre ya existe!");
+                ModelState.AddModelError("ID Existe", "¡El Grado con ese ID ya existe!");
                 return BadRequest(ModelState);
             }
+            
 
             if (gradeCreate == null)
             {
