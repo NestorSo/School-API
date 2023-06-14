@@ -126,10 +126,10 @@ namespace SchoolAPI.Controllers
 
             Grade modelo = _mapper.Map<Grade>(gradeUpdate);
 
-            //Student modelo = new()
+            //Grade modelo = new()
             //{
-            //    StudentId = studentUpdateDto.StudentId,
-            //    StudentName = studentUpdateDto.StudentName
+            //    GradeName = gradeUpdate.GradeName,
+            //    Section = gradeUpdate.Section
             //};
 
             await _gradeRepos.Update(modelo);

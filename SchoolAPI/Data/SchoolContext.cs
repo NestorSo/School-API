@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolAPI.Models;
+using SchoolAPI.ModelsUser;
 
 namespace SchoolAPI.Data
 {
@@ -11,6 +12,7 @@ namespace SchoolAPI.Data
         }
         public DbSet<Student> Students { get; set; }
         public DbSet<Grade> Grades { get; set; }
+        public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
@@ -52,6 +54,18 @@ namespace SchoolAPI.Data
                      DateOfBirth = new DateTime(2019, 1, 28),
                     GradeId = 2
                 });
+            modelBuilder.Entity<User>().HasData(
+               new User()
+               {
+                   Name = "Rebecca Auxiliadora Fajardo",
+                   Password = "2345"
+               },
+                new User()
+                {
+                    Name = "User2",
+                    Password = "123"
+                });
+
         }
     }
 }
