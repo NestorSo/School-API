@@ -266,3 +266,4 @@ C:\Users\Nesto\OneDrive\Escritorio\School API\SchoolAPI\obj\Debug\net6.0\refint\
 C:\Users\Nesto\OneDrive\Escritorio\School API\SchoolAPI\obj\Debug\net6.0\SchoolAPI.pdb
 C:\Users\Nesto\OneDrive\Escritorio\School API\SchoolAPI\obj\Debug\net6.0\SchoolAPI.genruntimeconfig.cache
 C:\Users\Nesto\OneDrive\Escritorio\School API\SchoolAPI\obj\Debug\net6.0\ref\SchoolAPI.dll
+C:\Users\Nesto\OneDrive\Escritorio\School API\SchoolAPI\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
