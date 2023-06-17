@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolAPI.Models;
-using SchoolAPI.ModelsUser;
 
 namespace SchoolAPI.Data
 {
@@ -59,7 +58,7 @@ namespace SchoolAPI.Data
                {
                    Id =1,
                    Name="Luis", 
-                   Password= "123",
+                   Password= "123456",
                    Role="Employee"
                },
                 new User()
@@ -67,7 +66,7 @@ namespace SchoolAPI.Data
 
                     Id = 2,
                     Name = "Ismael",
-                    Password = "2343",
+                    Password = "234354",
                     Role = "Customer"
                 });
 
